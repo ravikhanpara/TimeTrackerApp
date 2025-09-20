@@ -1,0 +1,42 @@
+<template>
+    <lightning-card title="Time Tracker" icon-name="standard:task">
+        <div class="slds-m-around_medium">
+            <!-- Show live timer only if a task is running -->
+            <template if:true={runningEntry}>
+                <p>Running: {runningEntry.Task__c} - {runningEntry.ProjectName}</p>
+                <p>Time: {elapsedTime}</p>
+            </template>
+
+            <!-- Project + Task -->
+            <lightning-combobox
+                label="Project"
+                placeholder="Select Project"
+                options={projectOptions}
+                value={selectedProject}
+                onchange={handleProjectChange}>
+            </lightning-combobox>
+            
+            <lightning-input
+                label="Task"
+                value={task}
+                onchange={handleTaskChange}>
+            </lightning-input>
+
+            <!-- Start / Stop Buttons -->
+            <div class="slds-m-top_medium">
+                <lightning-button label="Start Timer" onclick={startTimer} class="slds-m-right_small"></lightning-button>
+                <lightning-button label="Stop Timer" onclick={stopTimer}></lightning-button>
+            </div>
+
+            <!-- Today’s Entries -->
+            <template if:true={timeEntries}>
+                <lightning-datatable
+                    key-field="Id"
+                    data={timeEntries}
+                    columns={columns}
+                    class="slds-m-top_medium">
+                </lightning-datatable>
+            </template>
+        </div>
+    </lightning-card>
+</template>
